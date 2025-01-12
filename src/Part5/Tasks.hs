@@ -4,29 +4,31 @@ import Util(notImplementedYet)
 
 -- Реализуйте левую свёртку
 myFoldl :: (b -> a -> b) -> b -> [a] -> b
-myFoldl = notImplementedYet
+myFoldl _ b [] = b
+myFoldl f b (h:t)= myFoldl f (f b h) t
 
 -- Реализуйте правую свёртку
 myFoldr :: (a -> b -> b) -> b -> [a] -> b
-myFoldr = notImplementedYet
+myFoldr _ b [] = b
+myFoldr f b (h:t)= f h (myFoldr f b t)
 
 -- Используя реализации свёрток выше, реализуйте все остальные функции в данном файле
 
 myMap :: (a -> b) -> [a] -> [b]
-myMap f = notImplementedYet
+myMap f = myFoldr (\x t -> f x : t) []
 
 myConcatMap :: (a -> [b]) -> [a] -> [b]
-myConcatMap f = notImplementedYet
+myConcatMap f = myFoldr (\x t -> f x ++ t) []
 
 myConcat :: [[a]] -> [a]
-myConcat = notImplementedYet
+myConcat = myFoldr (++) []
 
 myReverse :: [a] -> [a]
-myReverse = notImplementedYet
+myReverse = myFoldl (flip (:)) []
 
 myFilter :: (a -> Bool) -> [a] -> [a]
-myFilter p = notImplementedYet
+myFilter p = myFoldr (\x t -> if p x then x : t else t) []
 
 myPartition :: (a -> Bool) -> [a] -> ([a], [a])
-myPartition p = notImplementedYet
+myPartition p = myFoldr (\x (l,r) -> if p x then (x:l,r) else (l,x:r)) ([],[])
 
