@@ -80,11 +80,11 @@ multiplyMatrix a b =
 
 -- Определитель матрицы
 determinant :: Matrix m => m -> Int
-determinant mx =
-    let n = row mx
-    in if n == 1 then mget mx 0 0
-       else if n == 2 then mget mx 0 0 * mget mx 1 1 - mget mx 0 1 * mget mx 1 0
-       else sum [(-1)^i * mget mx 0 i * determinant (minor mx 0 i) | i <- [0..n-1]]
+determinant mx 
+       | n == 1 = mget mx 0 0
+       | n == 2 = mget mx 0 0 * mget mx 1 1 - mget mx 0 1 * mget mx 1 0
+       | otherwise = sum [(-1)^i * mget mx 0 i * determinant (minor mx 0 i) | i <- [0..n-1]]
+       where n = row mx
 
 minor :: Matrix m => m -> Int -> Int -> m
 minor mx r c =
